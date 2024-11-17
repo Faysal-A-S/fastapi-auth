@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends
 from api.v1.auth_deps import logged_in
 from exceptions import handle_result
-from schemas import TaskBase, TaskIn, TaskOut, ResultIn
+from schemas import TaskIn, TaskOut
 from sqlalchemy.orm import Session
 from db import get_db
 from typing import List, Union
 from services import task_service
+
 router = APIRouter()
 
 
@@ -17,16 +18,16 @@ def all_task(db: Session = Depends(get_db), current_user: Session = Depends(logg
 
 
 @router.post('/', response_model=TaskOut)
-def create_task(data_in: TaskBase, db: Session = Depends(get_db), current_user: Session = Depends(logged_in)):
+def create_task(data_in: TaskIn, db: Session = Depends(get_db), current_user: Session = Depends(logged_in)):
     task = task_service.create_task(
         db=db, data_in=data_in, user_id=current_user.id)
     return handle_result(task)
 
 
 @router.get('/{id}', response_model=TaskOut)
-def get_one(id, db: Session = Depends(get_db), current_user: Session = Depends(logged_in)):
+def single_task(id, db: Session = Depends(get_db), current_user: Session = Depends(logged_in)):
     user_id = current_user.id
-    task = task_service.get_one_task(db=db, current_user_id=user_id, id=id)
+    task = task_service.get_one(db=db, id=id)
     return handle_result(task)
 
 
