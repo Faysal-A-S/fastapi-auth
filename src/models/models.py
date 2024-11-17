@@ -24,11 +24,10 @@ class ToDo(BaseModel):
     task = Column(Text, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"))
 
+
 # ==============#
 # Task Related #
 # ==============#
-
-
 class Task(BaseModel):
     __tablename__ = "tasks"
     title = Column(String(255))
