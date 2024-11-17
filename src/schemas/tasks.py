@@ -1,9 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-from pydantic import BaseModel
-from typing import Optional
-
 
 class TaskBase(BaseModel):
     title: str
@@ -11,7 +8,11 @@ class TaskBase(BaseModel):
 
 
 class TaskIn(TaskBase):
-    user_id: Optional[int] = None
+    pass
+
+
+class TaskDBIn(TaskBase):
+    user_id: int
 
 
 class TaskOut(TaskBase):
